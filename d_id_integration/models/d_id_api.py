@@ -1,13 +1,14 @@
 import time
+import os
 import requests
 from odoo import api, fields, models
 from odoo import http
 from odoo.exceptions import UserError, ValidationError
 from odoo.http import content_disposition, request
 
-DID_API_KEY = "ZXp6OTg4MDMzQGdtYWlsLmNvbQ:WloQ0FpwVoM4jp__31fy1"
-CHATGPT_KEY = "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"
-DEEPSEEK_KEY = "sk-d60de57ef67d4b7987e90d05f2adeb26"
+DID_API_KEY = os.getenv("DID_API_KEY")
+CHATGPT_KEY = os.getenv("CHATGPT_KEY")
+DEEPSEEK_KEY = os.getenv("DEEPSEEK_KEY")
 IMAGE_URL = "https://create-images-results.d-id.com/google-oauth2%7C111790638981973501987/drm_taFNiuC1RNgcnBtjhY_R1/thumbnail.jpeg"
 IMAGE_URL1 = "https://create-images-results.d-id.com/google-oauth2%7C111790638981973501987/drm_2T8-WLAESOD5vQEDDTlgs/thumbnail.jpeg"
 DID_URL = "https://api.d-id.com/talks"
