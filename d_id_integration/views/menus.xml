@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+            id="api_menu_root"
+            name="D-ID API"
+            sequence="1"/>
+
+    <menuitem
+            id="access_token_menu_item_id"
+            name="D-ID API"
+            parent="api_menu_root"
+            action="d_id_action"
+            sequence="2"/>
+</odoo>

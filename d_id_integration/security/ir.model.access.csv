@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+d_id_api_id,d_id_api_name,d_id_integration.model_d_id_api,base.group_user,1,1,1,1
