@@ -14,11 +14,11 @@
 
     <template id="portal_my_chats_list_view" name="My Chats">
         <t t-call="portal.portal_layout">
-            <!--        <t t-set="breadcrumbs_searchbar" t-value="True"/>-->
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
-            <!--        <t t-call="portal.portal_searchbar">-->
-            <!--            <t t-set="title">Invoices</t>-->
-            <!--        </t>-->
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Chats</t>
+            </t>
             <t t-if="not chats">
                 <p>There are currently no chats for your account.</p>
             </t>
@@ -61,7 +61,8 @@
                 <t t-else="">Chats</t>
             </li>
             <li t-if="page_name == 'chat_form_view' and chat"
-                class="col-lg-2 breadcrumb-item" t-attf-class="breadcrumb-item #{'active' if page_name == 'chat_form_view' else ''}">
+                class="col-lg-2 breadcrumb-item"
+                t-attf-class="breadcrumb-item #{'active' if page_name == 'chat_form_view' else ''}">
                 <a t-attf-href="/my/chats/{{ chat.id }}">
                     Chat #
                     <span t-esc="chat.id"/>
