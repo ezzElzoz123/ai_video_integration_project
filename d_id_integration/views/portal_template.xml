@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="portal_my_home_chat" inherit_id="portal.portal_my_home" name="Show Chats" customize_show="True"
+              priority="30">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Chats</t>
+                <t t-set="url" t-value="'/my/chats'"/>
+                <t t-set="placeholder_count" t-value="'chat_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+
+    <template id="portal_my_chats_list_view" name="My Chats">
+        <t t-call="portal.portal_layout">
+            <!--        <t t-set="breadcrumbs_searchbar" t-value="True"/>-->
+
+            <!--        <t t-call="portal.portal_searchbar">-->
+            <!--            <t t-set="title">Invoices</t>-->
+            <!--        </t>-->
+            <t t-if="not chats">
+                <p>There are currently no chats for your account.</p>
+            </t>
+            <t t-if="chats" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th class="text-center">Video Url</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="chats" t-as="chat">
+                        <tr>
+                            <td>
+                                <span t-esc="chat.question"/>
+                            </td>
+                            <td>
+                                <a t-attf-href="/my/chats/{{chat.id}}">
+                                    <span t-field="chat.lyrics"/>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="chat.video_url"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_chats_layout" name="Portal layout: chats menu entry"
+              inherit_id="portal.portal_breadcrumbs" priority="25">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'chats' or page_name == 'chat_form_view' or chats or chat"
+                class="col-lg-2"
+                t-attf-class="breadcrumb-item #{'active' if page_name == 'chats' else ''}">
+                <a t-if="page_name != 'chats'" t-attf-href="/my/chats?{{ keep_query() }}">Chats</a>
+                <t t-else="">Chats</t>
+            </li>
+            <li t-if="page_name == 'chat_form_view' and chat"
+                class="col-lg-2 breadcrumb-item" t-attf-class="breadcrumb-item #{'active' if page_name == 'chat_form_view' else ''}">
+                <a t-attf-href="/my/chats/{{ chat.id }}">
+                    Chat #
+                    <span t-esc="chat.id"/>
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_chat_page_form_view" name="Chat Portal Template" inherit_id="portal.portal_sidebar"
+              primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="row mt16 o_portal_chat_sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar">
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                    <t t-set="title">
+                        <h2 class="mb-0">
+                            <b t-if="chat.character" t-field="chat.character"/>
+                        </h2>
+                    </t>
+
+                    <t t-set="entries">
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li t-if="chat.create_uid" class="list-group-item flex-grow-1">
+                                <div class="small mb-1">
+                                    <strong class="text-muted">
+                                    </strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col flex-grow-0 pe-2">
+                                        <img class="rounded-circle mt-1 o_portal_contact_img"
+                                             t-att-src="image_data_uri(chat.create_uid.avatar_128)"
+                                             alt="Contact"/>
+                                    </div>
+                                    <div class="col ps-0">
+                                        <span t-field="chat.create_uid"
+                                              t-options='{"widget": "contact", "fields": ["name", "phone"], "no_marker": True}'/>
+                                        <a href="#discussion" class="small">
+                                            <i class="fa fa-fw fa-comments"/>
+                                            <b>Send message</b>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </t>
+                </t>
+
+                <!-- Page Content -->
+                <div id="chat_content" class="col-12 col-lg">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Question:</h3>
+                            <p t-field="chat.question"/>
+                            <hr/>
+
+                            <h3>Answer:</h3>
+                            <p t-field="chat.lyrics"/>
+                            <hr/>
+
+                            <div t-if="chat.image_html">
+                                <h3>Image:</h3>
+                                <t t-raw="chat.image_html"/>
+                            </div>
+                            <hr/>
+
+                            <div t-if="chat.video_url">
+                                <h3>Video:</h3>
+                                <t t-raw="chat.video_html"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

@@ -13,13 +13,14 @@ This module allows you to:
 - Store the video in Odoo and preview it directly.
     """,
     'author': "Ezzeldin Mohamed",
-    'website': "https://github.com/ezzeldin-mohamed",
+    'website': "https://github.com/ezzElzoz123",
     'category': 'Tools',
-    'depends': ['base'],
+    'depends': ['base','portal'],
     'data': [
         # Access rights
         'security/ir.model.access.csv',
         # Views for D-ID
+        'views/portal_template.xml',
         'views/d_id_api_view.xml',
         'views/menus.xml',
     ],

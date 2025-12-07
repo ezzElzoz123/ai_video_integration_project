@@ -157,7 +157,7 @@ class D_ID_API(models.Model):
             raise ValidationError("هناك خطأ برجاء المحاولة في وقت لاحق")
         elif response.status_code in [200, 201]:
             res = response.json()
-            answer = res.get("content")
+            answer = res.get("choices", [{}])[0].get("message", {}).get("content")
             if answer:
                 self.lyrics = answer
             else:
@@ -188,7 +188,7 @@ class D_ID_API(models.Model):
             raise ValidationError("هناك خطأ برجاء المحاولة في وقت لاحق")
         elif response.status_code in [200, 201]:
             res = response.json()
-            answer = res.get("content")
+            answer = res.get("choices", [{}])[0].get("message", {}).get("content")
             if answer:
                 self.lyrics = answer
             else:
