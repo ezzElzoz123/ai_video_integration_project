@@ -17,7 +17,7 @@ class PortalChats(CustomerPortal):
             values['chat_count'] = chat_count
         return values
 
-    @http.route(['/my/chats', '/my/chats/page/<int:page>'], type='http', website=True)
+    @http.route(['/my/chats', '/my/chats/page/<int:page>'], type='http', auth='public', website=True) # auth -> public for not logged in users, auth -> user for logged in users
     def portal_chats_list_view(self, page=1, sortby='id', search="", search_in="All", **kwargs):
         sorted_list = {
             'id': {'label': 'Chat Desc', 'order': 'id desc'},
@@ -34,10 +34,10 @@ class PortalChats(CustomerPortal):
         search_domain = search_list[search_in]['domain']
         default_order_by = sorted_list[sortby]['order']
         user = request.env.user
-        search_domain.append(('create_uid', '=', user.id))
-        chat_count = request.env['d.id.api'].search_count(search_domain)
+        search_domain.append(('create_uid', '=', user.id)) # if I am not logged
+        chat_count = request.env['d.id.api'].sudo().search_count(search_domain)
         page_detail = pager(url='/my/chats', total=chat_count, page=page, url_args={'sortby': sortby, 'search_in': search_in, 'search': search}, step=3)
-        chats = request.env['d.id.api'].search(search_domain, limit=3, order= default_order_by ,offset=page_detail['offset'])
+        chats = request.env['d.id.api'].sudo().search(search_domain, limit=3, order= default_order_by ,offset=page_detail['offset'])
         values = {
             'page_name': 'chats',
             'chat_count': chat_count,
@@ -51,7 +51,7 @@ class PortalChats(CustomerPortal):
         }
         return request.render('d_id_integration.portal_my_chats_list_view', values)
 
-    @http.route(['/my/chats/<int:chat_id>'], type='http', website=True)
+    @http.route(['/my/chats/<int:chat_id>'], type='http', auth='public', website=True)
     def portal_chats_form_view(self, chat_id, **kwargs):
 
         chat = request.env['d.id.api'].sudo().browse(chat_id)
@@ -61,7 +61,7 @@ class PortalChats(CustomerPortal):
             'chat': chat,
         }
         user = request.env.user
-        chats = request.env['d.id.api'].search([
+        chats = request.env['d.id.api'].sudo().search([
             ('create_uid', '=', user.id)
         ])
         chat_ids = chats.ids
