@@ -6,9 +6,10 @@ from odoo import http
 from odoo.exceptions import UserError, ValidationError
 from odoo.http import content_disposition, request
 
-DID_API_KEY = os.getenv("DID_API_KEY")
-CHATGPT_KEY = os.getenv("CHATGPT_KEY")
-DEEPSEEK_KEY = os.getenv("DEEPSEEK_KEY")
+# insert your keys here
+DID_API_KEY = ""
+CHATGPT_KEY = ""
+DEEPSEEK_KEY = ""
 IMAGE_URL = "https://create-images-results.d-id.com/google-oauth2%7C111790638981973501987/drm_taFNiuC1RNgcnBtjhY_R1/thumbnail.jpeg"
 IMAGE_URL1 = "https://create-images-results.d-id.com/google-oauth2%7C111790638981973501987/drm_2T8-WLAESOD5vQEDDTlgs/thumbnail.jpeg"
 DID_URL = "https://api.d-id.com/talks"
@@ -188,7 +189,7 @@ class D_ID_API(models.Model):
             raise ValidationError("هناك خطأ برجاء المحاولة في وقت لاحق")
         elif response.status_code in [200, 201]:
             res = response.json()
-            answer = res.get("choices", [{}])[0].get("message", {}).get("content")
+            answer = res["choices"][0]["message"]["content"]
             if answer:
                 self.lyrics = answer
             else:
