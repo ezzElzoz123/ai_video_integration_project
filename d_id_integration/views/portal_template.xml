@@ -82,6 +82,7 @@
                         <h2 class="mb-0">
                             <b t-if="chat.character" t-field="chat.character"/>
                         </h2>
+                        <a t-attf-href="/my/chats/print/{{chat.id}}" class="fa fa-download">Download</a>
                     </t>
 
                     <t t-set="entries">
@@ -135,6 +136,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- chatter -->
+                <div class="mt-4">
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="chat"/>
+                    </t>
                 </div>
             </div>
         </xpath>

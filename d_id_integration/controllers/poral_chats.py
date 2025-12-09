@@ -59,6 +59,7 @@ class PortalChats(CustomerPortal):
             'page_name': 'chat_form_view',
             'chat_id': chat_id,
             'chat': chat,
+            'object': chat,
         }
         user = request.env.user
         chats = request.env['d.id.api'].sudo().search([
@@ -78,6 +79,14 @@ class PortalChats(CustomerPortal):
             values,
             headers={'X-Frame-Options': 'SAMEORIGIN'}
         )
+
+    @http.route(['/my/chats/print/<int:chat_id>'], type='http', auth='public', website=True)
+    def portal_chats_report_view(self, chat_id, **kwargs):
+        print("Hello From Report Screen", chat_id)
+
+        # def _show_report(self, model, report_type, report_ref, download=False):
+        chat = request.env['d.id.api'].browse(chat_id)
+        return self._show_report(model=chat, report_type='pdf', report_ref='d_id_integration.report_did_api', download=True)
 
     def _get_character_domain(self, search):
         if not search:

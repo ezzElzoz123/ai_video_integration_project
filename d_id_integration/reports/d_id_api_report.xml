@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_did_api">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+
+                <div class="page">
+                    <h2>D-ID API Report</h2>
+
+                    <table class="table table-sm" style="width:100%; margin-top:20px;">
+                        <tr>
+                            <th style="width:30%">Character</th>
+                            <td>
+                                <span t-field="doc.character"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Question</th>
+                            <td>
+                                <t t-esc="doc.question"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Lyrics</th>
+                            <td>
+                                <t t-raw="doc.lyrics"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Video ID</th>
+                            <td>
+                                <t t-esc="doc.video_id"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Video URL</th>
+                            <td>
+                                <t t-esc="doc.video_url"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h3 style="margin-top:25px;">Image</h3>
+                    <div>
+                        <t t-raw="doc.image_html"/>
+                    </div>
+
+                </div>
+
+            </t>
+        </t>
+    </template>
+
+    <report
+            id="action_report_did_api"
+            model="d.id.api"
+            string="D-ID API Report"
+            report_type="qweb-pdf"
+            name="d_id_integration.report_did_api"
+            file="d_id_integration.report_did_api"
+            print_report_name="'DID Report - %s' % (object.id)"
+    />
+
+</odoo>

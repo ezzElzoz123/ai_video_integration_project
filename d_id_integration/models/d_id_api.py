@@ -19,6 +19,7 @@ DEEPSEEK_URL = "https://api.deepseek.com/chat/completions"
 
 class D_ID_API(models.Model):
     _name = "d.id.api"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "D-ID API"
 
     character = fields.Selection(
@@ -26,10 +27,11 @@ class D_ID_API(models.Model):
                    ('ch2', ('Abeer'))],
         string=("Choose Character"),
         default="ch2",
-        required=True
+        required=True,
+        tracking=True,
     )
-    question = fields.Text()
-    lyrics = fields.Text()
+    question = fields.Text(tracking=True)
+    lyrics = fields.Text(tracking=True)
     video_id = fields.Char()
     video_url = fields.Char()
     video_html = fields.Html("Video Preview", compute="_compute_video_html", sanitize=False)
@@ -195,3 +197,20 @@ class D_ID_API(models.Model):
             else:
                 raise UserError("لا توجد إجاية لسؤالك هذا")
             self.create_talking_avatar()
+
+    def _get_report_base_filename(self):
+        return "d_id_api_report"
+
+class DIDAPIReport(models.AbstractModel):
+    _name = "report.d_id_integration.report_did_api"
+    _description = "D-ID API Report"
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        docs = self.env["d.id.api"].browse(docids)
+        return {
+            "doc_ids": docids,
+            "doc_model": "d.id.api",
+            "docs": docs,
+        }
+

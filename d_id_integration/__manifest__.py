@@ -15,12 +15,13 @@ This module allows you to:
     'author': "Ezzeldin Mohamed",
     'website': "https://github.com/ezzElzoz123",
     'category': 'Tools',
-    'depends': ['base','portal'],
+    'depends': ['base', 'portal'],
     'data': [
         # Access rights
         'security/ir.model.access.csv',
         # Views for D-ID
         'views/portal_template.xml',
+        'reports/d_id_api_report.xml',
         'views/d_id_api_view.xml',
         'views/menus.xml',
     ],

@@ -10,6 +10,7 @@
                         <button name="ask_deep_seek" type="object" string="Deepseek"/>
                         <button name="ask_gpt" type="object" string="ChatGPT"/>
                         <button name="create_talking_avatar" type="object" string="Generate Video"/>
+                        <button name="%(action_report_did_api)d" type="action" class="btn-primary" string="Print D-ID Report"/>
                     </header>
                     <sheet>
                         <group>
@@ -27,8 +28,12 @@
                                 <field name="video_html" widget="html" nolabel="1"/>
                             </page>
                         </notebook>
-
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
