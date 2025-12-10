@@ -19,34 +19,70 @@
             <t t-call="portal.portal_searchbar">
                 <t t-set="title">Chats</t>
             </t>
-            <t t-if="not chats">
+            <t t-if="not group_chats">
                 <p>There are currently no chats for your account.</p>
             </t>
-            <t t-if="chats" t-call="portal.portal_table">
-                <thead>
-                    <tr class="active">
-                        <th>Question</th>
-                        <th>Answer</th>
-                        <th class="text-center">Video Url</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <t t-foreach="chats" t-as="chat">
-                        <tr>
-                            <td>
-                                <span t-esc="chat.question"/>
-                            </td>
-                            <td>
-                                <a t-attf-href="/my/chats/{{chat.id}}">
-                                    <span t-field="chat.lyrics"/>
-                                </a>
-                            </td>
-                            <td class="text-center">
-                                <span t-esc="chat.video_url"/>
-                            </td>
+            <t t-if="group_chats" t-call="portal.portal_table">
+                <t t-foreach="group_chats" t-as="group">
+                    <thead>
+                        <tr t-if="groupby in ('character','question')">
+                            <th t-if="groupby=='character'" colspan="4">
+                                <em class="font-weight-normal text-muted">
+                                    <h4>Character:
+                                        <span t-esc="group['groupby_value']"/>
+                                        (
+                                        <span t-esc="len(group['chats'])"/>
+                                        )
+                                    </h4>
+                                </em>
+                            </th>
+                            <th t-if="groupby=='question'" colspan="4">
+                                <em class="font-weight-normal text-muted">
+                                    <h4>Question:
+                                        <span t-esc="group['groupby_value']"/>
+                                        (
+                                        <span t-esc="len(group['chats'])"/>
+                                        )
+                                    </h4>
+                                </em>
+                            </th>
                         </tr>
-                    </t>
-                </tbody>
+                        <tr class="active">
+                            <th>ID</th>
+                            <th t-if="groupby!='character'">
+                                <span>Character</span>
+                            </th>
+                            <th t-if="groupby!='question'">
+                                <span>Question</span>
+                            </th>
+                            <th>Answer</th>
+                            <th class="text-center">Video Url</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="group['chats']" t-as="chat">
+                            <tr>
+                                <td>
+                                    <span t-esc="chat.id"/>
+                                </td>
+                                <td t-if="groupby != 'character'">
+                                    <span t-field="chat.character"/>
+                                </td>
+                                <td t-if="groupby != 'question'">
+                                    <span t-esc="chat.question"/>
+                                </td>
+                                <td>
+                                    <a t-attf-href="/my/chats/{{chat.id}}">
+                                        <span t-field="chat.lyrics"/>
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="chat.video_url"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </t>
             </t>
         </t>
     </template>
