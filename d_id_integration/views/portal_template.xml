@@ -199,36 +199,51 @@
     <template id="portal_chat_new_form_view" name="New Chat Portal Template">
         <t t-call="portal.portal_layout">
             <t t-call="portal.portal_table">
-                <form method="post">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="character">Character</label>
-                        <div class="col-sm-10">
-                            <select name="character" id="character" required="required" class="form-control">
-                                <option>
-                                    ... Character Selection ...
-                                </option>
-                                <t t-foreach="characters_list" t-as="char">
-                                    <option t-att-value="char[0]">
-                                        <t t-esc="char[1]"/>
+                <t t-foreach="error_list" t-as="error">
+                    <div class="alert alert-danger" role="alert">
+                        <t t-out="error"/>
+                    </div>
+                </t>
+                <t t-if="success_message">
+                    <div class="alert alert-success" role="alert">
+                        <t t-out="success_message"/>
+                    </div>
+                </t>
+                <div class="alert alert-warning" id="chat_client_side_validation_message" role="alert" style="display:none">
+                        Hi, There is a warning message...
+                    </div>
+                <div id="new_chat_creation">
+                    <form method="post">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="character">Character</label>
+                            <div class="col-sm-10">
+                                <select name="character" id="character" class="form-control">
+<!--                                    required="required"-->
+                                    <option value="">
+                                        ... Character Selection ...
                                     </option>
-                                </t>
-                            </select>
+                                    <t t-foreach="characters_list" t-as="char">
+                                        <option t-att-value="char[0]">
+                                            <t t-esc="char[1]"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="question">Question</label>
-                        <div class="col-sm-10">
-                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <input type="char" name="question" id="question" class="form-control"/>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="question">Question</label>
+                            <div class="col-sm-10">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="char" name="question" id="question" class="form-control"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Create New Chat</button>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Create New Chat</button>
+                            </div>
                         </div>
-                    </div>
-
-                </form>
+                    </form>
+                </div>
             </t>
         </t>
     </template>

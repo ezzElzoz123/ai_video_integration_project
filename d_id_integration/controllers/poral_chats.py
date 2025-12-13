@@ -32,16 +32,28 @@ class PortalChats(CustomerPortal):
             'page_name': 'new_chat_form_view',
         }
         if request.httprequest.method == "POST":
-            print(kwargs)
-            create_request = request.env['d.id.api'].create({
-                'character' : kwargs.get('character'),
-                'question' : kwargs.get('question'),
-                'is_created_from_portal' : True,
-            })
-            print("New Chat Is Created With Id " + str(create_request.id))
+            # print(kwargs)
+            error_list = []
+            if not kwargs.get('character'):
+                error_list.append("Character field is required")
+            valid_values = [char[0] for char in characters_list]
+            if kwargs.get('character') not in valid_values:
+                error_list.append("Invalid character selection!")
+            if not kwargs.get('question'):
+                error_list.append("Question field is required")
+            if not error_list:
+                create_request = request.env['d.id.api'].create({
+                    'character' : kwargs.get('character'),
+                    'question' : kwargs.get('question'),
+                    'is_created_from_portal' : True,
+                })
+                success_message = f"New chat created successfully. Chat ID: {create_request.id}."
+                values['success_message'] = success_message
+            else:
+                values['error_list'] = error_list
         else:
             print("GET REQUEST ...............")
-        user = request.env.user
+        # user = request.env.user
         return request.render(
             'd_id_integration.portal_chat_new_form_view',
             values,

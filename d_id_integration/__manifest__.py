@@ -25,6 +25,11 @@ This module allows you to:
         'views/d_id_api_view.xml',
         'views/menus.xml',
     ],
+    'assets':{
+        'web.assets_frontend':[
+            '/d_id_integration/static/src/js/new_chat_validation.js'
+        ],
+    },
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
