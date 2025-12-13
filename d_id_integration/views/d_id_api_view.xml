@@ -20,6 +20,7 @@
                         <group>
                             <field name="question"/>
                             <field name="lyrics"/>
+                            <field name="is_created_from_portal" invisible="1"/>
                             <field name="video_id" readonly="1"/>
                             <field name="video_url" readonly="1" widget="url"/>
                         </group>

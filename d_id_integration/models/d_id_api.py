@@ -32,6 +32,7 @@ class D_ID_API(models.Model):
     )
     question = fields.Text(tracking=True)
     lyrics = fields.Text(tracking=True)
+    is_created_from_portal = fields.Boolean(tracking=True)
     video_id = fields.Char()
     video_url = fields.Char()
     video_html = fields.Html("Video Preview", compute="_compute_video_html", sanitize=False)

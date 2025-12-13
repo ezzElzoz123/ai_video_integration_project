@@ -19,7 +19,33 @@ class PortalChats(CustomerPortal):
                 ('create_uid', '=', request.env.user.id)
             ])
             values['chat_count'] = chat_count
+        if 'new_chat_count' in counters:
+            values['new_chat_count'] = 1
         return values
+
+    @http.route(['/new/chat'], type='http', methods=["POST", "GET"], auth='user', website=True)
+    def portal_new_chat_form_view(self, **kwargs):
+        field = request.env['d.id.api']._fields['character']
+        characters_list = field.selection
+        values = {
+            'characters_list': characters_list,
+            'page_name': 'new_chat_form_view',
+        }
+        if request.httprequest.method == "POST":
+            print(kwargs)
+            create_request = request.env['d.id.api'].create({
+                'character' : kwargs.get('character'),
+                'question' : kwargs.get('question'),
+                'is_created_from_portal' : True,
+            })
+            print("New Chat Is Created With Id " + str(create_request.id))
+        else:
+            print("GET REQUEST ...............")
+        user = request.env.user
+        return request.render(
+            'd_id_integration.portal_chat_new_form_view',
+            values,
+        )
 
     @http.route(['/my/chats', '/my/chats/page/<int:page>'], type='http', auth='public', website=True) # auth -> public for not logged in users, auth -> user for logged in users
     def portal_chats_list_view(self, page=1, sortby='id', search="", search_in="All", groupby="none", **kwargs):

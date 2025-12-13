@@ -4,6 +4,11 @@
               priority="30">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
+                <t t-set="title">New Chat</t>
+                <t t-set="url" t-value="'/new/chat'"/>
+                <t t-set="placeholder_count" t-value="'new_chat_count'"/>
+            </t>
+            <t t-call="portal.portal_docs_entry">
                 <t t-set="title">Chats</t>
                 <t t-set="url" t-value="'/my/chats'"/>
                 <t t-set="placeholder_count" t-value="'chat_count'"/>
@@ -104,6 +109,13 @@
                     <span t-esc="chat.id"/>
                 </a>
             </li>
+            <li t-if="page_name == 'new_chat_form_view'"
+                class="col-lg-2 breadcrumb-item"
+                t-attf-class="breadcrumb-item #{'active' if page_name == 'new_chat_form_view' else ''}">
+                <a t-attf-href="/new/chat">
+                    New Chat #
+                </a>
+            </li>
         </xpath>
     </template>
 
@@ -182,6 +194,43 @@
                 </div>
             </div>
         </xpath>
+    </template>
+
+    <template id="portal_chat_new_form_view" name="New Chat Portal Template">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_table">
+                <form method="post">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="character">Character</label>
+                        <div class="col-sm-10">
+                            <select name="character" id="character" required="required" class="form-control">
+                                <option>
+                                    ... Character Selection ...
+                                </option>
+                                <t t-foreach="characters_list" t-as="char">
+                                    <option t-att-value="char[0]">
+                                        <t t-esc="char[1]"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="question">Question</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="char" name="question" id="question" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Create New Chat</button>
+                        </div>
+                    </div>
+
+                </form>
+            </t>
+        </t>
     </template>
 
 </odoo>
