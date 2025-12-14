@@ -9,8 +9,8 @@ publicWidget.registry.NewChatForm = publicWidget.Widget.extend({
     },
 
     _onSubmitButton: function(evt){
-        var question = this.$("input"[name='question']).val();
-        var $characterName = this.$("select"[name='character']);
+        var question = this.$("input[name='question']").val();
+        var $characterName = this.$("select[name='character']");
         var character_name = ($characterName.val() || '0');
         var valid_characters = ['ch1', 'ch2'];
 
